@@ -1,27 +1,27 @@
-from collections.abc import AsyncGenerator
+from SQLAlchemy import create_engine, Column, Integer, String
+from SQLAlchemy.orm import sessionmaker
+from SQLAlchemy.ext.declarative import declarative_base
 
-from sqlalchemy.ext.asyncio import create_async_engine
-from sqlalchemy.ext.asyncio import async_sessionmaker
+import dotenv
+import os
 
-from app import config
-from app.utils.logging import AppLogger
+Base = declarative_base()
 
-global_settings = config.get_settings()
-logger = AppLogger.__call__().get_logger()
+class TESTDB(Base):
+    __tablename__ = 'test1'
+    seq = Column(Integer, primary_key=True)
+    num = Column(Integer)
+    data = Column(String(255))
 
-engine = create_async_engine(
-    global_settings.asyncpg_url.unicode_string(),
-    future=True,
-    echo=True,
-)
+dotenv_file = dotenv.find_dotenv()
+dotenv.load_dotenv(dotenv_file)
 
-# expire_on_commit=False will prevent attributes from being expired
-# after commit.
-AsyncSessionFactory = async_sessionmaker(engine, autoflush=False, expire_on_commit=False,)
+engine = create_engine(os.environ["SQL_URL"])
 
+Session  = sessionmaker(bind=engine)
+session = Session()
 
 # Dependency
-async def get_db() -> AsyncGenerator:
-    async with AsyncSessionFactory() as session:
-        # logger.debug(f"ASYNC Pool: {engine.pool.status()}")
-        yield session
+users = session.query(TESTDB).all()
+for user in users:
+    print(user.num, user.data)
