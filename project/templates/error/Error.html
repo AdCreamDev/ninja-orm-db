@@ -1,0 +1,8 @@
+{% extends './base/base_err.html' %}
+{% block content %}
+<div>
+    <h2><%= message %></h2>
+    <h3><%= error.status %></h3>
+    <p><%= error.stack %></p>    
+</div>
+{% endblock %}

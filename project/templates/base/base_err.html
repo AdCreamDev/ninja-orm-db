@@ -1,0 +1,13 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="{% static 'stylesheets/style.css' %}">
+  </head>
+  <body>
+    <h1>Error</h1>
+    {% block content %} 
+    // base.html을 상속한 템플릿에서 구현해야 하는 영역
+    {% endblock %}
+  </body>
+</html>

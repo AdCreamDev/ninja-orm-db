@@ -1,0 +1,13 @@
+{% extends './base/base.html' %}
+{% block content %}
+<div>
+  <h2>Sigh Up Page</h2>
+  <form action="/signup" method="post">
+    <div>이메일: <input name="email" required /></div>
+    <div>비밀번호: <input name="password" required /></div>
+    <div>비밀번호 확인: <input name="pwConfirm" required /></div>
+    <div>사용자 이름: <input name="username" required /></div>
+    <button type="submit">Sign up</button>
+  </form>
+</div>
+{% endblock %}
